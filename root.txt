@@ -1,0 +1,91 @@
+//s12
+//cir_queue.h
+#include <stdio.h>
+#include <malloc.h>
+typedef struct node
+{
+int info;
+struct node *next;
+} NODE;
+NODE *front, *rear;
+void initq()
+{
+rear = NULL;
+}
+int isempty()
+{
+return rear == NULL;
+}
+void addq(int num)
+{
+NODE *newnode;
+newnode = (NODE *)malloc(sizeof(NODE));
+newnode->info = num;
+if (rear == NULL)
+{
+rear = newnode;
+rear->next = rear;
+}
+else
+{
+rear->next = rear->next ;
+rear->next = newnode;
+rear = newnode;
+}
+}
+int removeq()
+{
+NODE *front= rear->next;
+int num = front->info;
+if(rear->next == rear) //only one node
+free(rear);
+else
+{
+
+rear->next= front->next;
+free(front);
+}
+return (num);
+}
+int peek()
+{
+return rear->next->info;
+}
+
+
+//circularQ.c
+#include<stdio.h>
+#include "cir_queue.h"
+void main()
+{
+int choice, num;
+initq();
+do
+{
+printf("\n1.ADD\n2.REMOVE\n3.PEEK\n4.EXIT");
+printf("\nEnter your choice");
+scanf("%d", &choice);
+switch (choice)
+{
+case 1:
+printf("\nEnter the element to be added");
+scanf("%d", &num);
+addq(num);
+break;
+case 2:
+if (isempty())
+printf("\nQueue underflow");
+else
+printf("\nThe removed element is %d", removeq());
+break;
+case 3:
+peek();
+break;
+}
+} while (choice != 4);
+}
+
+
+//cc filename.h
+//cc filename.c
+//  ./a.out
